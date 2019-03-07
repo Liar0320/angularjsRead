@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>angularjs-model-view</title>
+</head>
+<body>
+    <div>
+        这边采用了 简单的双向绑定， 通过触发ng-click绑定的函数来修改我们的数据值。这时 后台 count 已经更新而视图上的值没有更新，
+        采用 apply()函数 将后台的结果反映到界面上，完成了职责分离，可以认为是单一职责模式。
+        而在angular中 ng-click封装了click，然后调用apply()函数，将数据渲染到视图上。
+        在angular的apply函数中 ，进行脏检测。 oldValue 和 newValue 当oldValue不等于newValue时，触发对应的注册函数 listener事件。调用该事件。
+    </div>
+    <button ng-click='increase'>增加</button>
+    <button ng-click='decrease'>减少</button>
+    <p ng-bind='count'></p>
+</body>
+<script >
+    var scope = {
+        increase () {
+            this.count++;
+        },
+        decrease () {
+            this.count--;
+        },
+        count:0
+    }
+    
+    function bind() {
+        var bindList = document.querySelectorAll('[ng-click]');
+        bindList.forEach(item=>{
+            item.onclick = function () {
+                var fnc = item.getAttribute('ng-click');
+                scope[fnc]();
+                apply()
+                return;
+            }
+        })
+    }
+
+    function apply() {
+        var bindList = document.querySelectorAll('[ng-bind]');
+        bindList.forEach(item=>{
+            var key = item.getAttribute('ng-bind');
+            item.innerHTML = scope[key];
+        })
+    }
+
+    bind();
+
+    apply();
+
+</script>
+</html>

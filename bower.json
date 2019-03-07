@@ -1,0 +1,23 @@
+{
+  "name": "angularjs",
+  "authors": [
+    "lich <100108350@qq.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+   
+  },
+  "devDependencies": {
+    "angular": "angularjs#1.6"
+  }
+}
