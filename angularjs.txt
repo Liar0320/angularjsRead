@@ -1,0 +1,27 @@
+研究angularjs1.6源码
+工具方法
+	// String#toLowerCase and String#toUpperCase don't produce correct results in browsers with Turkish
+	// locale, for this reason we need to detect this case and redefine lowercase/uppercase methods
+	// with correct but slower alternatives. See https://github.com/angular/angular.js/issues/11387
+	中间提供一个
+		manualToLowerCase 采用了 charCodeAt()|32;
+		因为 32 = 2^5	 10 0000
+		而	 64 = 2^6 	100 0000 
+		即使位运算相取或32
+			 96 = 2^7   110 0000
+		反之 charCOdeAt() & ~32
+	因此总结
+		function manulToLowerCase(s){
+			return typeof s === 'string' 
+				? s.replace(/[A-Z]/g,function(ch){return String.fromCharCode(ch.charCodeAt(0) | 32)})
+				: s;
+		}
+		function manulToUpperCase(s){
+			return typeof s === 'string' 
+				? s.replace(/[a-z]/g,function(ch){return String.fromCharCode(ch.charCodeAt(0) & ~32)})
+				: s;
+		}
+	
+优化
+	编写for循环时
+	for(var i = 0 , ii = [].length; i <ii;i++){};
